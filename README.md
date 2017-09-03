@@ -1,5 +1,6 @@
 # ![](https://share.polymtl.ca/alfresco/guestDownload/direct?path=/Company%20Home/Sites/salle-de-presse---web/documentLibrary/logos/logoImpactMax/polytechnique_promo_cmykPrint.jpg "Logo de Polytechnique Montréal")
 
+# Clone-Moodle
 Utilitaire qui vous permet de cloner votre répertoire moodle directement dans un dossier sur votre PC!
 
 # Prérequis
