@@ -1,7 +1,8 @@
-# clone-moodle
+# ![](https://share.polymtl.ca/alfresco/guestDownload/direct?path=/Company%20Home/Sites/salle-de-presse---web/documentLibrary/logos/logoImpactMax/polytechnique_promo_cmykPrint.jpg "Logo de Polytechnique Montréal")
+
 Utilitaire qui vous permet de cloner votre répertoire moodle directement dans un dossier sur votre PC!
 
-# Pré-requis
+# Prérequis
 Les modules 'requests' et 'bs4' sont requis pour le fonctionnement du script.
 
 Afin de les installer, exécuter ces deux commandes :
@@ -11,7 +12,7 @@ Afin de les installer, exécuter ces deux commandes :
 `pip install bs4`
 
 # Exécution du script
-Pour lancer le script, éxécuter cette commande.
+Pour lancer le script, exécuter cette commande.
 
 `python clone-moodle`
 
@@ -123,4 +124,27 @@ def findRessourceTab(html):
     return linkTab
 ```
 
+## savefile(title,documentlink,cookie)
+Méthode permettant de sauvegarder un fichier depuis une requête
+
+| Paramètre           | Définition                                                           |
+| -------------       |:-------------:                                                       |
+| **title**           | Nom sous lequel le fichier va être enregistré                        |
+| **documentlink**    | Lien vers le document à télécharger                                  |
+| **cookie**          | Cookie contenant l'authentification de l'utilisateur                 |
+
+```python
+def savefile(title,documentlink,cookie):
+    if(not(os.path.isfile(title))):
+        reqDocument = request(documentlink,cookie)
+        filetype = reqDocument.headers['content-type'].split('/')[-1]
+        print(filetype)
+        if("html" in filetype):
+            html = BeautifulSoup(reqDocument.text,"html.parser").find('div',attrs={'class':'resourceworkaround'})
+            link = html.a.get('href')
+            reqDocument = request(link,cookie)
+
+            with open(title + "." + filetype, "wb") as file:
+                file.write(reqDocument.content)
+```
 
