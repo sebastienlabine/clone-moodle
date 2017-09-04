@@ -86,6 +86,7 @@ def savefile(title,documentlink,cookie):
     reqDocument = request(documentlink,cookie)
     filetype = reqDocument.headers['content-type'].split('/')[-1]
 
+    # IF the file is code or a page
     if('charset=utf-8' in filetype):
         try:
             html = BeautifulSoup(reqDocument.text,"html.parser").find('div',attrs={'class':'resourceworkaround'})
@@ -93,8 +94,14 @@ def savefile(title,documentlink,cookie):
         except AttributeError:
             filetypeArray = reqDocument.url.split('.')
             filetype = filetypeArray[len(filetypeArray)-1]
+            
+            # Don't download if it's a page
             if('id' in filetype):
                 return None
+            
+            if('?forcedownload=1' in filetype):
+                filetype = filetype.replace('?forcedownload=1',"")
+                
         else :
             link = html.a.get('href')
             reqDocument = request(link,cookie)
