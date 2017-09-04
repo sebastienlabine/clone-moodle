@@ -25,14 +25,19 @@ except NameError:
 # Constants
 LOGIN_URL = 'https://moodle.polymtl.ca/login/index.php'
 SIGLES_COURS = ['AER','ELE','GLQ','IFT','MTH','SPL','CAP','ENE','GML','IND','MEC','MTR','TPE','EST','INF','MET','PHS','SLI','SST','STI','BIO','CHE','DDI','GBM','ING','SMC','CIV','GCH']
+RESTRICTED_CHARS = ['*','\\','/','?',':','|','<','>','\"']
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 SESSION = requests.session()
 
+def verifyString(name):
+    for char in RESTRICTED_CHARS:
+        if char in name:
+            name = name.replace(char,"")
+    return name
+
 def createFolder(foldername):
     # Fix for the error : NotADirectoryError : [WinError 267]
-   if(':' in foldername):
-         foldername = foldername.replace(":", "")
-
+    verifyString(foldername)
     if not os.path.exists(foldername):
         print("Creation du dossier pour le cours " + foldername)
         os.makedirs(foldername)
@@ -74,7 +79,6 @@ def findRessourceTab(html):
 
 
 def savefile(title,documentlink,cookie):
-
     reqDocument = request(documentlink,cookie)
     filetype = reqDocument.headers['content-type'].split('/')[-1]
 
@@ -96,10 +100,8 @@ def savefile(title,documentlink,cookie):
         filetype = 'doc'
 
     # Fix for the error : FileNotFoundError: [Errno 2] No such file or directory
-    if('/' in title):
-        title = title.replace("/", "")
+    verifyString(title)
 
-   
     # Fix for the error : [Errno 36] File name too long
     if len(title) >= 250:
         title = title[:230]

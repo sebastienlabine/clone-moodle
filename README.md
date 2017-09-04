@@ -46,6 +46,23 @@ SESSION = requests.session()
  
  
 # Liste des méthodes
+
+## verifyString(name)
+Méthode permettant d'analyser un nom possible de fichier/dossier et de le modifier afin qu'il respecte les normes windows
+
+| Paramètre           | Définition                                                           |
+| -------------       |:-------------:                                                       |
+| **name**      	  | Nom du fichier ou du dossier à analyser                              |
+| **RETURN**      	  | Retourne le nom du fichier conforme	                                 |
+
+```python
+def verifyString(name):
+    for char in RESTRICTED_CHARS:
+        if char in name:
+            name = name.replace(char,"")
+    return name
+```
+
 ## createFolder(foldername)
 Méthode permettant de créer un dossier s'il n'y en existe aucun du même nom et de naviguer à l'intérieur de celui-ci
 
@@ -55,6 +72,8 @@ Méthode permettant de créer un dossier s'il n'y en existe aucun du même nom e
 
 ```python
 def createFolder(foldername):
+    # Fix for the error : NotADirectoryError : [WinError 267]
+    verifyString(foldername)
     if not os.path.exists(foldername):
         print("Creation du dossier pour le cours " + foldername)
         os.makedirs(foldername)
@@ -135,8 +154,7 @@ Méthode permettant de sauvegarder un fichier depuis une requête
 | **cookie**          | Cookie contenant l'authentification de l'utilisateur                 |
 
 ```python
-
-    reqDocument = request(documentlink,cookie)
+reqDocument = request(documentlink,cookie)
     filetype = reqDocument.headers['content-type'].split('/')[-1]
 
     if('charset=utf-8' in filetype):
@@ -157,10 +175,8 @@ Méthode permettant de sauvegarder un fichier depuis une requête
         filetype = 'doc'
 
     # Fix for the error : FileNotFoundError: [Errno 2] No such file or directory
-    if('/' in title):
-        title = title.replace("/", "")
+    verifyString(title)
 
-   
     # Fix for the error : [Errno 36] File name too long
     if len(title) >= 250:
         title = title[:230]
