@@ -75,6 +75,9 @@ def savefile(title,documentlink,cookie):
             reqDocument = request(link,cookie)
             filetype = reqDocument.headers['content-type'].split('/')[-1]
 
+    if('msword' in filetype):
+        filetype = 'doc'
+        
     with open(title + "." + filetype, "wb") as file:
             file.write(reqDocument.content)
 
