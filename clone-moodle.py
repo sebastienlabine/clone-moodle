@@ -41,7 +41,7 @@ def verifyString(name):
 
 def createFolder(foldername):
     # Fix for the error : NotADirectoryError : [WinError 267]
-    verifyString(foldername)
+    foldername = verifyString(foldername)
     if not os.path.exists(foldername):
         print("Creation du dossier pour le cours " + foldername)
         os.makedirs(foldername)
@@ -104,7 +104,7 @@ def savefile(title,documentlink,cookie):
         filetype = 'doc'
 
     # Fix for the error : FileNotFoundError: [Errno 2] No such file or directory
-    verifyString(title)
+    title = verifyString(title)
 
     # Fix for the error : [Errno 36] File name too long
     if len(title) >= 250:
