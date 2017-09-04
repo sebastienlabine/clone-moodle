@@ -15,7 +15,7 @@ Afin de les installer, exécuter ces deux commandes :
 # Exécution du script
 Pour lancer le script, exécuter cette commande.
 
-`python clone-moodle`
+`python clone-moodle.py`
 
 > Veuillez entrer votre nom d'utilisateur
 
