@@ -1,11 +1,26 @@
+import getpass
+import os,sys,zipfile,time
+
+# Hide the traceback
+sys.tracebacklimit = 0
+
+# Raise the Import Errors
 try:
     import requests
-    import getpass
-    import os,sys,zipfile,time
-    from bs4 import BeautifulSoup
-
 except ImportError:
-     raise ImportError('Les packages "request" et "bs4" doivent être install\u0201"')
+    raise ImportError('Le package "request" doit etre installe"')
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    raise ImportError('Le package "bs4" doit etre installe"')
+
+# Allow compatibility between Python2 and Python3
+
+try:
+    input = raw_input
+except NameError:
+    pass
 
 
 # Constants
@@ -40,7 +55,7 @@ def fetchAllClasses(html):
         print("Erreur de connexion : mauvais nom d'utilisateur ou mauvais mot de passe")
         sys.exit()
     else:
-        print("Succès lors de la connexion au serveur Moodle...\n")
+        print("Succes lors de la connexion au serveur Moodle...\n")
         print("Vous avez " + str(len(linksToPages)) + " cours.\n")
     return linksToPages
 
@@ -77,7 +92,7 @@ def savefile(title,documentlink,cookie):
 
     if('msword' in filetype):
         filetype = 'doc'
-        
+
     with open(title + "." + filetype, "wb") as file:
             file.write(reqDocument.content)
 
@@ -104,7 +119,7 @@ def findAllDocuments(html,cookie):
                 zip.close()
                 os.remove(title + ".zip")
                 
-                # télécharge les fichiers
+                # telecharge les fichiers
                 os.chdir("..")
             
 def main():
