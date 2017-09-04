@@ -29,6 +29,10 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleW
 SESSION = requests.session()
 
 def createFolder(foldername):
+    # Fix for the error : NotADirectoryError : [WinError 267]
+   if(':' in foldername):
+         foldername = foldername.replace(":", "")
+
     if not os.path.exists(foldername):
         print("Creation du dossier pour le cours " + foldername)
         os.makedirs(foldername)
