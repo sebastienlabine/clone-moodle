@@ -34,12 +34,14 @@ Voici les constantes pour ce script.
 | -------------       |:-------------:                                                       |
 | **LOGIN_URL**       | URL de connexion au serveur moodle                                   |
 | **SIGLES_COURS**    | Sigles des cours importants à la Polytechnique                       |
+| **RESTRICTED_CHARS**| Liste des charactères interdit par Windows pour les fichiers/dossiers|
 | **HEADERS**         | Headers permettant au script de s'identifier auprès du serveur       |
 | **SESSION**         | Session contenant les informations utiles pour les requêtes          |     
 
 ```python
 LOGIN_URL = 'https://moodle.polymtl.ca/login/index.php'
 SIGLES_COURS = ['AER','ELE','GLQ','IFT','SPL','IND','PHS','BIO','CIV','ING','CHE','STI','MTH','INF','LOG']
+RESTRICTED_CHARS = ['*','\\','/','?',':','|','<','>','\"']
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 SESSION = requests.session()
 ```
@@ -48,7 +50,7 @@ SESSION = requests.session()
 # Liste des méthodes
 
 ## verifyString(name)
-Méthode permettant d'analyser un nom possible de fichier/dossier et de le modifier afin qu'il respecte les normes windows
+Méthode permettant d'analyser un nom possible de fichier/dossier et de le modifier afin qu'il respecte les normes Windows
 
 | Paramètre           | Définition                                                           |
 | -------------       |:-------------:                                                       |
