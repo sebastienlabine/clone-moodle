@@ -28,7 +28,7 @@ except NameError:
 
 # Constants
 LOGIN_URL = 'https://moodle.polymtl.ca/login/index.php'
-SIGLES_COURS = ['AER','ELE','GLQ','IFT','MTH','SPL','CAP','ENE','GML','IND','MEC','MTR','TPE','EST','INF','MET','PHS','SLI','SST','STI','BIO','CHE','DDI','GBM','ING','SMC','CIV','GCH','LOG']
+SIGLES_COURS = ['AER','ELE','GLQ','IFT','MTH','SPL','CAP','ENE','GML','IND','MEC','MTR','TPE','EST','INF','MET','PHS','SLI','SST','SSH','STI','BIO','CHE','DDI','GBM','ING','SMC','CIV','GCH','LOG']
 RESTRICTED_CHARS = ['*','\\','/','?',':','|','<','>','\"']
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 SESSION = requests.session()
