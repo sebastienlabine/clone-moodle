@@ -136,16 +136,28 @@ Méthode permettant de sauvegarder un fichier depuis une requête
 
 ```python
 def savefile(title,documentlink,cookie):
-    if(not(os.path.isfile(title))):
-        reqDocument = request(documentlink,cookie)
-        filetype = reqDocument.headers['content-type'].split('/')[-1]
-        print(filetype)
-        if("html" in filetype):
+
+    reqDocument = request(documentlink,cookie)
+    filetype = reqDocument.headers['content-type'].split('/')[-1]
+
+    if('charset=utf-8' in filetype):
+        try:
             html = BeautifulSoup(reqDocument.text,"html.parser").find('div',attrs={'class':'resourceworkaround'})
+            html.a.get('href')
+        except AttributeError:
+            filetypeArray = reqDocument.url.split('.')
+            filetype = filetypeArray[len(filetypeArray)-1]
+            if('id' in filetype):
+                return None
+        else :
             link = html.a.get('href')
             reqDocument = request(link,cookie)
+            filetype = reqDocument.headers['content-type'].split('/')[-1]
 
-            with open(title + "." + filetype, "wb") as file:
-                file.write(reqDocument.content)
+    if('msword' in filetype):
+        filetype = 'doc'
+        
+    with open(title + "." + filetype, "wb") as file:
+            file.write(reqDocument.content)
 ```
 
