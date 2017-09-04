@@ -16,7 +16,6 @@ except ImportError:
     raise ImportError('Le package "bs4" doit etre installe"')
 
 # Allow compatibility between Python2 and Python3
-
 try:
     input = raw_input
 except NameError:
@@ -65,7 +64,6 @@ def findRessourceTab(html):
     for tab in tabs:
         if('resources' in tab.a.get('href')):
             linkTab = tab.a.get('href')
-        
         else :
             linkTab = "none"
     return linkTab
@@ -93,6 +91,15 @@ def savefile(title,documentlink,cookie):
     if('msword' in filetype):
         filetype = 'doc'
 
+    # Fix for the error : FileNotFoundError: [Errno 2] No such file or directory
+    if('/' in title):
+        title = title.replace("/", "")
+
+   
+    # Fix for the error : [Errno 36] File name too long
+    if len(title) >= 250:
+        title = title[:230]
+
     with open(title + "." + filetype, "wb") as file:
             file.write(reqDocument.content)
 
@@ -114,15 +121,18 @@ def findAllDocuments(html,cookie):
                 createFolder(title)
                 id = dossierHTML.find('input',attrs={'name':'id'}).get('value')
                 savefile(title,"https://moodle.polymtl.ca/mod/folder/download_folder.php?id="+id,cookie)
+                
+                # Download the file under a zip file
                 zip = zipfile.ZipFile(title + ".zip")
                 zip.extractall()
                 zip.close()
-                os.remove(title + ".zip")
                 
-                # telecharge les fichiers
+                # Delete the zip file
+                os.remove(title + ".zip")
                 os.chdir("..")
             
 def main():
+
     startTime = time.time()
     # User information
     username = input("Veuillez entrer votre nom d'utilisateur\n")
