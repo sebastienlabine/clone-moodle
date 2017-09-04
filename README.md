@@ -69,7 +69,7 @@ Méthode permettant de faire une requête à une URL
 | -------------       |:-------------:                                                       |
 | **url**             | Lien URL                                                             |
 | **cookie**          | Cookie contenant l'authentification de l'utilisateur                 |
-| **RETURN**          | Retourne la requête "POST" sous forme d'objet                        |
+| **RETURN**          | Retourne la reponse de la requête sous forme d'objet                 |
 
 ```python
 def request(url,cookie):
@@ -135,7 +135,6 @@ Méthode permettant de sauvegarder un fichier depuis une requête
 | **cookie**          | Cookie contenant l'authentification de l'utilisateur                 |
 
 ```python
-def savefile(title,documentlink,cookie):
 
     reqDocument = request(documentlink,cookie)
     filetype = reqDocument.headers['content-type'].split('/')[-1]
@@ -156,7 +155,16 @@ def savefile(title,documentlink,cookie):
 
     if('msword' in filetype):
         filetype = 'doc'
-        
+
+    # Fix for the error : FileNotFoundError: [Errno 2] No such file or directory
+    if('/' in title):
+        title = title.replace("/", "")
+
+   
+    # Fix for the error : [Errno 36] File name too long
+    if len(title) >= 250:
+        title = title[:230]
+
     with open(title + "." + filetype, "wb") as file:
             file.write(reqDocument.content)
 ```
