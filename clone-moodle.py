@@ -57,17 +57,26 @@ def findRessourceTab(html):
 
 
 def savefile(title,documentlink,cookie):
-    if(not(os.path.isfile(title))):
-        reqDocument = request(documentlink,cookie)
-        filetype = reqDocument.headers['content-type'].split('/')[-1]
-        print(filetype)
-        if("html" in filetype):
+
+    reqDocument = request(documentlink,cookie)
+    filetype = reqDocument.headers['content-type'].split('/')[-1]
+
+    if('charset=utf-8' in filetype):
+        try:
             html = BeautifulSoup(reqDocument.text,"html.parser").find('div',attrs={'class':'resourceworkaround'})
+            html.a.get('href')
+        except AttributeError:
+            filetypeArray = reqDocument.url.split('.')
+            filetype = filetypeArray[len(filetypeArray)-1]
+            if('id' in filetype):
+                return None
+        else :
             link = html.a.get('href')
             reqDocument = request(link,cookie)
+            filetype = reqDocument.headers['content-type'].split('/')[-1]
 
-            with open(title + "." + filetype, "wb") as file:
-                file.write(reqDocument.content)
+    with open(title + "." + filetype, "wb") as file:
+            file.write(reqDocument.content)
 
 def findAllDocuments(html,cookie):
     documents = html.find_all("td", attrs={"class":"c1"})
@@ -96,7 +105,7 @@ def findAllDocuments(html,cookie):
                 os.chdir("..")
             
 def main():
-
+    startTime = time.time()
     # User information
     username = input("Veuillez entrer votre nom d'utilisateur\n")
     password = getpass.getpass('Veuillez entrer votre mot de passe \n')
@@ -111,7 +120,7 @@ def main():
     }
 
     # Creating the folder
-    createFolder("Polytechnique Montréal")
+    createFolder("Polytechnique Montreal")
 
 
     # Login
@@ -150,8 +159,10 @@ def main():
         findAllDocuments(ressourceHTML,loginCookie)
         os.chdir("..")
     os.chdir("..")
+    os.chdir("..")
+    endTime = time.time()
 
-
+    print("Fin de la tache. Duree totale :" + "{0:.2f}".format(round(endTime-startTime),2) + " secondes")
 
 
 if __name__ == "__main__":
