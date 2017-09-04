@@ -1,8 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# encoding=utf8 
 import getpass
 import os,sys,zipfile,time
 
-# Hide the traceback
-sys.tracebacklimit = 0
+if sys.version[0] == '2':
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 
 # Raise the Import Errors
 try:
