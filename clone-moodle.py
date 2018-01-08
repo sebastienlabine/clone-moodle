@@ -12,7 +12,7 @@ if sys.version[0] == '2':
 try:
     import requests
 except ImportError:
-    raise ImportError('Le package "request" doit etre installe"')
+    raise ImportError('Le package "requests" doit etre installe"')
 
 try:
     from bs4 import BeautifulSoup
