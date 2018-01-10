@@ -173,10 +173,10 @@ def main():
     loginCookie = loginRequest.cookies
 
     # Redirecting to home page
-    home = request('https://moodle.polymtl.ca/my',loginCookie)
+    url = "https://moodle.polymtl.ca/my/index.php?mynumber=-2"  # URL that shows all classes
+    home = request(url,loginCookie)
     homeHTML = BeautifulSoup(home.text,"html.parser")
     classes = fetchAllClasses(homeHTML)
-
 
     # Navigating through each class
     for thisClass in classes:
