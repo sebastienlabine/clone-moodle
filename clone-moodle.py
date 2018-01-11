@@ -75,12 +75,11 @@ def findRessourceTab(html):
     tabs = html.find("ul",attrs={"class":"unlist"}).find_all("li")
 
     for tab in tabs:
-        if('resources' in tab.a.get('href')):
             linkTab = tab.a.get('href')
-        else :
+            break
+        else:
             linkTab = "none"
     return linkTab
-
 
 def savefile(title,documentlink,cookie):
     reqDocument = request(documentlink,cookie)
@@ -188,7 +187,7 @@ def main():
 
         # Creating the class folder
         createFolder(title)
-    
+
         # Trying to access the ressource tab
         ressourceLink = findRessourceTab(thisClassHTML)
 
@@ -200,7 +199,7 @@ def main():
             os.chdir("..")
             continue
         ressourceHTML = BeautifulSoup(req.text,"html.parser")
-        
+
         findAllDocuments(ressourceHTML,loginCookie)
         os.chdir("..")
     os.chdir("..")
