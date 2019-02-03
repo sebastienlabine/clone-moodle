@@ -74,18 +74,6 @@ def fetchAllClasses(html):
     print("Vous avez " + str(len(linksToPages)) + " cours.\n")
     return linksToPages
 
-
-def findRessourceTab(html):
-    tabs = html.find("ul", attrs={"class": "unlist"}).find_all("li")
-
-    for tab in tabs:
-        if('resources' in tab.a.get('href')):
-            linkTab = tab.a.get('href')
-        else:
-            linkTab = "none"
-    return linkTab
-
-
 def savefile(title, documentlink, cookie):
     reqDocument = request(documentlink, cookie)
     filetype = reqDocument.headers['content-type'].split('/')[-1]
