@@ -6,11 +6,7 @@ Utilitaire qui vous permet de cloner votre répertoire moodle directement dans u
 # Prérequis
 Les modules 'requests' et 'bs4' sont requis pour le fonctionnement du script.
 
-Afin de les installer, exécuter ces deux commandes :
-
-`pip install requests`
-
-`pip install bs4`
+Afin de les installer, exécuter cette commande : `pip install --user bs4 requests`
 
 # Exécution du script
 Pour lancer le script, exécuter cette commande.
