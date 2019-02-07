@@ -55,6 +55,7 @@ def createFolder(foldername):
         os.makedirs(foldername)
     else:
         print("Le dossier " + foldername + " existe deja")
+    return foldername
 
 
 def request(url, cookie):
@@ -135,16 +136,16 @@ def findAllDocuments(html, cookie):
             folderHTML = BeautifulSoup(req.text, "html.parser")
             folderName = folderHTML.find("div", {"role": "main"}).h2.text
             print(folderName)
-            createFolder(folderName)
-            os.chdir(folderName)
+            folderNameCleaned = createFolder(folderName)
+            os.chdir(folderNameCleaned)
             folderId = documentURL.split("=")[1]
-            savefile(folderName, "https://moodle.polymtl.ca/mod/folder/download_folder.php?id="+folderId, cookie)
+            savefile(folderNameCleaned, "https://moodle.polymtl.ca/mod/folder/download_folder.php?id="+folderId, cookie)
             # Download the file under a zip file
-            zip = zipfile.ZipFile(folderName + ".zip")
+            zip = zipfile.ZipFile(folderNameCleaned + ".zip")
             zip.extractall()
             zip.close()
             # Delete the zip file
-            os.remove(folderName + ".zip")
+            os.remove(folderNameCleaned + ".zip")
             os.chdir("..")
 
 
